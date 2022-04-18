@@ -28,7 +28,20 @@
 
     <div class="ideas-container space-y-6 my-6">
         @foreach ($ideas as $idea)
-            <div class="idea-container hover:shadow-card transition duration-150 ease-in bg-white rounded-xl flex cursor-pointer">
+            <div
+                x-data
+                @click="
+                    clicked = $event.target
+                    target = clicked.tagName.toLowerCase()
+
+                    const ignores = ['button', 'svg', 'path', 'a']
+
+                    if (! ignores.includes(target)) {
+                        clicked.closest('.idea-container').querySelector('.idea-link').click()
+                    }
+                "
+                class="idea-container hover:shadow-card transition duration-150 ease-in bg-white rounded-xl flex cursor-pointer"
+            >
                 <div class="hidden md:block border-r border-gray-100 px-5 py-8">
                     <div class="text-center">
                         <div class="font-semibold text-2xl">12</div>
@@ -47,7 +60,7 @@
                     </div>
                     <div class="w-full flex flex-col justify-between mx-2 md:mx-4">
                         <h4 class="text-xl font-semibold mt-2 md:mt-0">
-                            <a href="{{ route('idea.show', ['idea' => $idea]) }}" class="hover:underline">{{ $idea->title }}</a>
+                            <a href="{{ route('idea.show', ['idea' => $idea]) }}" class="idea-link hover:underline">{{ $idea->title }}</a>
                         </h4>
                         <div class="text-gray-600 mt-3 line-clamp-3">
                             {{ $idea->description }}
@@ -70,8 +83,7 @@
                                     @click="isOpen = !isOpen"
                                     class="relative bg-gray-100 hover:bg-gray-200 border rounded-full transition duration-150 ease-in h-7 px-3"
                                 >
-                                    <svg class="text-gray-400 w-6" fill="currentColor" width="50" h="6" viewBox="0 0 16 16"><path d="M3 9.5a1.w-full md:5 1.5 w-full md:0 w-full md:1 1 0-w-full md:3 1.w-full md:5 1.5 0 w-full md:0 1 0 3zm5 0a1.w-full md:5 1.5 w-full md:0 w-full md:1 1 0-w-full md:3 1.w-full md:5 1.5 0 w-full md:0 1 0 3zm5 0a1.w-full md:5 1.5 w-full md:0 w-full md:1 1 0-w-full md:3 1.w-full md:5 1.5 0 w-full md:0 1 0 3z"/></svg>
-                                    <ul 
+                                    <svg class="text-gray-400" fill="currentColor" width="24" h="6" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path></svg>                                    <ul 
                                         x-cloak
                                         x-show.transition.origin.top.left="isOpen"
                                         @click.away="isOpen = false"
