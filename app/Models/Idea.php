@@ -14,11 +14,6 @@ class Idea extends Model
 
     protected $guarded = [];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -32,4 +27,15 @@ class Idea extends Model
             ]
         ];
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function category() 
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }
