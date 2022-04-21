@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Livewire;
 use App\Http\Livewire\CreateIdea;
 use App\Models\Category;
+use App\Models\Idea;
 use App\Models\Status;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -120,10 +121,9 @@ class CreateIdeaTest extends TestCase
             ->call('createIdea')
             ->assertRedirect(route('idea.index'))
         ;
-
         $this->assertDatabaseHas('ideas', [
             'title' => 'My First Idea',
-            'slug' => 'my-first-idea-2 ',
+            'slug' => 'my-first-idea-2',
         ]);
     }
 
