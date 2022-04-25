@@ -3,8 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Models\Idea;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use App\Exceptions\VoteNotFoundException;
+use App\Exceptions\DuplicateVoteException;
 
 class IdeaShow extends Component
 {
@@ -26,11 +28,19 @@ class IdeaShow extends Component
         }
 
         if ($this->hasVoted) {
-            $this->idea->removeVote(Auth::user());
+            try {
+                $this->idea->removeVote(Auth::user());
+            } catch (VoteNotFoundException $th) {
+                // do nothing
+            }
             $this->votesCount--;
             $this->hasVoted = false;
         } else {
-            $this->idea->vote(Auth::user());
+            try {
+                $this->idea->vote(Auth::user());
+            } catch (DuplicateVoteException $e) {
+                // do nothing
+            }
             $this->votesCount++;
             $this->hasVoted = true;
         }

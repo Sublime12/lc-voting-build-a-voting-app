@@ -217,6 +217,7 @@ class VoteIndexPageTest extends TestCase
     /** @test */
     public function user_who_is_logged_in_can_remove_vote_for_idea()
     {
+        /** @var \App\Models\User */
         $user = User::factory()->create();
 
         $categoryOne = Category::factory()->create(['name' => 'Category 1']);
